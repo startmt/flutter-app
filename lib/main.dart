@@ -1,5 +1,6 @@
     
 import 'package:flutter/material.dart';
+import './notlogin_screen.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -11,8 +12,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white
         ),
-        home: MyTabBar(),
-        );
+      initialRoute: '/',
+      routes: {
+        '/': (context) => NotLogin(),
+        '/main': (context) => MyTabBar()
+      },
+      );
   }
 }
 class MyTabBar extends StatelessWidget {
