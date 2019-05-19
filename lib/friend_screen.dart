@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/component/friendtemplate.dart';
 
 import 'bloc/appbar_bloc.dart';
 import 'bloc/provider_bloc.dart';
@@ -15,7 +16,8 @@ class _FriendScreenState extends State<FriendScreen> {
     print("page Friend");
     AppbarBloc appbarBloc = BlocProvider.of<AppbarBloc>(context);
     appbarBloc.setTitle("Home");
-    return Container(child: Text('Page 1')
+    return Container(
+      child: FriendTemplate(),
     );
   }
 }
