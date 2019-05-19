@@ -9,7 +9,7 @@ class AppbarBloc implements BlocBase{
     streamControllerTitle.stream.listen(getTitle);
   }
   getTitle(String title){
-    return title;
+    print(title);
   }
   setTitle(String title) {
     title = title;

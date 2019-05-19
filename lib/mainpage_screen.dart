@@ -17,9 +17,8 @@ class _MainPageScreenState extends State<MainPageScreen> {
     return Scaffold(
       appBar: PreferredSize(child: StreamBuilder(
         stream: appbarBloc.streamControllerTitle.stream,
-        initialData: '',
+        initialData: 'Home',
         builder: (context, snapshot){
-          print("title " + snapshot.data.toString());
           return AppbarImplement.getAppBar(snapshot.data.toString());
         },
       ),
