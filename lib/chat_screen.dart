@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'bloc/appbar_bloc.dart';
 import 'bloc/provider_bloc.dart';
-class ProfileScreen extends StatelessWidget {
+class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppbarBloc appbarBloc = BlocProvider.of<AppbarBloc>(context);
-    appbarBloc.setTitle("Profile");
-   return Container(child: Text('Page 3')
+    appbarBloc.setTitle("Chat");
+    return Container(child: Text('Page 2')
     );
   }
 }
