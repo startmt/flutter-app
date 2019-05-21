@@ -30,16 +30,16 @@ Widget build(BuildContext context) {
     bottomNavigationBar: BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: Text('Home'),
+          icon: Icon(Icons.people),
+          title: Text('Friend'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat),
           title: Text('Chat'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.people),
-          title: Text('Profile'),
+          icon: Icon(Icons.settings),
+          title: Text('Setting'),
         ),
       ],
       currentIndex: _selectedIndex,

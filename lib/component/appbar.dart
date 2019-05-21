@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import './appbaricon.dart';
+
 class AppbarImplement {
-  static getAppBar(String title) {
+  static getAppBar(String title, BuildContext context) {
     return PreferredSize(
       preferredSize: const Size(double.infinity, kToolbarHeight),
       child: AppBar(
-        title: Center(child: Text(title)),
-        actions: AppbarIcon
+        title: Text(title),
+        actions: AppbarIcon.getAppBarIcon(title, context)
       ),
     );
   }

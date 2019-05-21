@@ -15,7 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     FirebaseAuth auth = FirebaseAuth.instance;
     AppbarBloc appbarBloc = BlocProvider.of<AppbarBloc>(context);
     auth.currentUser().then((user) =>{
-      appbarBloc.setTitle(user.displayName)
+      appbarBloc.setTitle("Setting")
     });
     signout(){
       auth.signOut();

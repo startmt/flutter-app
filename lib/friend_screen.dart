@@ -15,7 +15,7 @@ class _FriendScreenState extends State<FriendScreen> {
   Widget build(BuildContext context) {
     print("page Friend");
     AppbarBloc appbarBloc = BlocProvider.of<AppbarBloc>(context);
-    appbarBloc.setTitle("Home");
+    appbarBloc.setTitle("Friend");
     return Container(
       child: FriendTemplate(),
     );

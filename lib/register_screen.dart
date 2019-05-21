@@ -62,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
     final name = TextFormField(
       controller: nameController,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
       autofocus: false,
       validator: (val){
         if(val.isEmpty)return 'Please fill in name';
@@ -158,25 +158,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Form(key: _formKey,
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[
-            logo,
-            SizedBox(height: 48.0),
-            name,
-            SizedBox(height: 8.0),
-            email,
-            SizedBox(height: 8.0),
-            password,
-            SizedBox(height: 8.0),
-            rePassword,
-            SizedBox(height: 24.0),
-            registerBtn,
-            loginText
-          ],
-        )
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(left: 24.0, right: 24.0),
+            children: <Widget>[
+              logo,
+              SizedBox(height: 48.0),
+              name,
+              SizedBox(height: 8.0),
+              email,
+              SizedBox(height: 8.0),
+              password,
+              SizedBox(height: 8.0),
+              rePassword,
+              SizedBox(height: 24.0),
+              registerBtn,
+              loginText
+            ],
+          )
         ),
       ),
     );

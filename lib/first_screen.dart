@@ -8,7 +8,6 @@ import 'mainpage_screen.dart';
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // FirebaseAuth.instance.signOut();
     return StreamBuilder(
       stream: FirebaseAuth.instance.currentUser().asStream(),
       builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot){
