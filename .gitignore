@@ -8,7 +8,8 @@
 .buildlog/
 .history
 .svn/
-
+GoogleService-Info.plist
+google-services.json
 # IntelliJ related
 *.iml
 *.ipr

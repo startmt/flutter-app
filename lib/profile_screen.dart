@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'bloc/appbar_bloc.dart';
 import 'bloc/provider_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import 'first_screen.dart';
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -10,10 +12,30 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    print("page Profile");
+    FirebaseAuth auth = FirebaseAuth.instance;
     AppbarBloc appbarBloc = BlocProvider.of<AppbarBloc>(context);
-    appbarBloc.setTitle("Profile");
-   return Container(child: Text('Page 3')
-    );
+    auth.currentUser().then((user) =>{
+      appbarBloc.setTitle(user.displayName)
+    });
+    signout(){
+      auth.signOut();
+      Navigator.pushReplacement(context, 
+      MaterialPageRoute(builder: (context)=> FirstScreen()
+      ));
+    }
+    final signoutBtn = RaisedButton(
+      onPressed: signout,
+       padding: EdgeInsets.all(12),
+       color: Colors.grey,
+       child: Text('Sign out', style: TextStyle(color: Colors.white)));
+    print("Page Setting");
+    
+   return Scaffold(
+     body: ListView(
+       children: <Widget>[
+         signoutBtn
+       ],
+     )
+   );
   }
 }

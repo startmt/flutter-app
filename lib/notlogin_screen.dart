@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:testapp/home_screen.dart';
-
+import 'package:testapp/login_screen.dart';
 class NotLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     final signinButton = FlatButton(
       onPressed: () {
         Navigator.pushReplacement(context,
-         MaterialPageRoute(builder: (context) => HomeScreen()
+         MaterialPageRoute(builder: (context) => LoginScreen()
          )
         );
       },
