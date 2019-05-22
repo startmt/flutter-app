@@ -1,8 +1,7 @@
 class UserData{
   String name = '';
   String email = '';
-  UserData(){
-  }
+  UserData();
   UserData.formNameEmail(String name, String email){
     this.name = name;
     this.email = email;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/notlogin_screen.dart';
 import 'bloc/appbar_bloc.dart';
 import 'bloc/provider_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'first_screen.dart';
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -20,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     signout(){
       auth.signOut();
       Navigator.pushReplacement(context, 
-      MaterialPageRoute(builder: (context)=> FirstScreen()
+      MaterialPageRoute(builder: (context)=> NotLogin()
       ));
     }
     final signoutBtn = RaisedButton(
