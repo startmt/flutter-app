@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/bloc/friend_bloc.dart';
 import 'package:testapp/component/friendtemplate.dart';
 
 import 'bloc/appbar_bloc.dart';
@@ -13,10 +14,10 @@ class FriendScreen extends StatefulWidget {
 class _FriendScreenState extends State<FriendScreen> {
   @override
   Widget build(BuildContext context) {
-    print("page Friend");
     AppbarBloc appbarBloc = BlocProvider.of<AppbarBloc>(context);
     appbarBloc.setTitle("Friend");
-    return Container(
+    return BlocProvider(
+      bloc: FriendBloc(),
       child: FriendTemplate(),
     );
   }

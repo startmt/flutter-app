@@ -2,18 +2,18 @@ import 'package:testapp/bloc/provider_bloc.dart';
 import 'dart:async';
 
 class UserBloc implements BlocBase{
-  String title;
+  String user;
   
   StreamController<String> streamControllerUser =  StreamController<String>.broadcast();
   UserBloc(){
     streamControllerUser.stream.listen(getUser);
   }
-  getUser(String title){
-    print(title);
+  getUser(String user){
+    print(user);
   }
-  setUser(String User) {
-    User = User;
-    streamControllerUser.sink.add(User);
+  setUser(String user) {
+    user = user;
+    streamControllerUser.sink.add(user);
   }
   @override
   void dispose() {

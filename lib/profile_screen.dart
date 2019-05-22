@@ -28,7 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
        padding: EdgeInsets.all(12),
        color: Colors.grey,
        child: Text('Sign out', style: TextStyle(color: Colors.white)));
-    print("Page Setting");
     
    return Scaffold(
      body: ListView(

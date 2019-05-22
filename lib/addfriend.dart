@@ -3,7 +3,7 @@ import 'package:testapp/dto/userdata.dart';
 import 'component/appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'bloc/friend_bloc.dart';
 class AddFriendScreen extends StatefulWidget {
   @override
   _AddFriendScreenState createState() => _AddFriendScreenState();
@@ -17,7 +17,9 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   
   bool _searchStatus = false;
-  userData resultData = userData();
+  String _userStatus = '';
+  UserData resultData = UserData();
+  FriendBloc friendBloc;
   @override
   Widget build(BuildContext context) {
      checkFriend() async{
@@ -25,14 +27,14 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
     if(resultData.email == user.email){
       setState(() {
             _searchStatus = false;
-            resultData.setStatus("You can't add yourself");
+            _userStatus = "You can't add yourself";
           });
     }
     else{
       setState(() {
             _searchStatus = true;
+            _userStatus = "";
           });
-        resultData.setStatus("");
     }
   }
     searchUser(){
@@ -48,7 +50,8 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
           print(err),
           setState(() {
             _searchStatus = false;
-            resultData.setUserData("Not found", "Not found",);
+            resultData.setUserData("", "");
+            _userStatus = 'Not found';
           }),
         });
       }
@@ -73,15 +76,21 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
     DocumentReference userRef = firestore
     .collection('user')
     .document(user.uid);
+    
+    firestore.collection('user').document(user.uid).snapshots().listen((data){
+      print(data.data);
+    });
     firestore.collection('user').document(user.uid)
-    .updateData((
-    {
-      'added': FieldValue.arrayUnion([docref])
+    .collection('added')
+    .document(docref.documentID)
+    .setData((
+      {
+      'ref': docref
     }
     ));
-    docref.updateData((
+    docref.collection('request').document(user.uid).setData((
       {
-        'request': FieldValue.arrayUnion([userRef])
+        'ref': userRef
       }
     ));
     print("Success");
@@ -116,7 +125,7 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
   final resultText = Container(
     child: Text(resultData.name));
     final resultStatusText = Container(
-    child: Text(resultData.status));
+    child: Text(_userStatus));
   final addBtn = RaisedButton(
     onPressed: ()=>addFriend(),
     color: Colors.green,

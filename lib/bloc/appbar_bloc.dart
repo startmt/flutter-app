@@ -6,7 +6,7 @@ class AppbarBloc implements BlocBase{
   
   StreamController<String> streamControllerTitle =  StreamController<String>.broadcast();
   AppbarBloc(){
-    streamControllerTitle.stream.listen(getTitle);
+    print(streamControllerTitle.stream.listen(getTitle));
   }
   getTitle(String title){
     print(title);

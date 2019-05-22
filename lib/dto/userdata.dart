@@ -1,7 +1,12 @@
-class userData{
+class UserData{
   String name = '';
   String email = '';
-  String status = '';
+  UserData(){
+  }
+  UserData.formNameEmail(String name, String email){
+    this.name = name;
+    this.email = email;
+  }
   setUserData(
     String name,
     String email
@@ -9,18 +14,10 @@ class userData{
     this.name = name;
     this.email = email;
   }
-  setStatus(
-    String status
-    ){
-    this.status = status;
-  }
   getName(){
     return name;
   }
   getEmail(){
     return email;
-  }
-  getStatus(){
-    return status;
   }
 }
