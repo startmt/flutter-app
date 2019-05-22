@@ -28,6 +28,12 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
             resultData.setStatus("You can't add yourself");
           });
     }
+    else{
+      setState(() {
+            _searchStatus = true;
+          });
+        resultData.setStatus("");
+    }
   }
     searchUser(){
       String _searchTxt = searchController.text;
@@ -64,19 +70,23 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
     .document(ref
               .documents[0]
               .documentID);
+    DocumentReference userRef = firestore
+    .collection('user')
+    .document(user.uid);
     firestore.collection('user').document(user.uid)
     .updateData((
     {
       'added': FieldValue.arrayUnion([docref])
     }
     ));
-    print(ref.documents[0].documentID);
+    docref.updateData((
+      {
+        'request': FieldValue.arrayUnion([userRef])
+      }
+    ));
+    print("Success");
+    print(docref.documentID);
   }
-
-
-
-
-
     final search = TextFormField(
       controller: searchController,
       keyboardType: TextInputType.emailAddress,
@@ -105,6 +115,8 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
 
   final resultText = Container(
     child: Text(resultData.name));
+    final resultStatusText = Container(
+    child: Text(resultData.status));
   final addBtn = RaisedButton(
     onPressed: ()=>addFriend(),
     color: Colors.green,
@@ -131,6 +143,7 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         )
       ),
        resultText,
+       resultStatusText,
        _searchStatus? addBtn:Container()
       ],
       )
