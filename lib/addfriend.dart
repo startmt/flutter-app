@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/dto/userdata.dart';
-
-import 'bloc/appbar_bloc.dart';
-import 'bloc/provider_bloc.dart';
 import 'component/appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,8 +20,15 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
   userData resultData = userData();
   @override
   Widget build(BuildContext context) {
-
-    final AppbarBloc appbarBloc = BlocProvider.of<AppbarBloc>(context);
+     checkFriend() async{
+    FirebaseUser user = await auth.currentUser();
+    if(resultData.email == user.email){
+      setState(() {
+            _searchStatus = false;
+            resultData.setStatus("You can't add yourself");
+          });
+    }
+  }
     searchUser(){
       String _searchTxt = searchController.text;
       if(this._formKey.currentState.validate()){
@@ -32,35 +36,47 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         .where('email', isEqualTo: _searchTxt)
         .getDocuments()
         .then((val)=>{
-          setState(() {
-            _searchStatus = true;
-            print(_searchStatus);
-          }),
-          resultData.setUserData(val.documents[0].data['name'], val.documents[0].data['email'])
+          resultData.setUserData(val.documents[0].data['name'], val.documents[0].data['email']),
+          checkFriend()
         }).catchError((err)=>{
+          print(err),
           setState(() {
             _searchStatus = false;
-            resultData.setUserData("Not found", "Not found");
+            resultData.setUserData("Not found", "Not found",);
           }),
         });
       }
     }
 
-  Future<DocumentReference> getFriendref() async {
+ 
+
+  Future<QuerySnapshot> getFriendref() async {
     String _searchTxt = searchController.text;
-    Future<QuerySnapshot> doc = firestore.collection('user')
+    return firestore.collection('user')
         .where('email', isEqualTo: _searchTxt)
         .getDocuments();
-    // doc.then((ref)=>{print("doc = " + ref.documents[0].metadata.toString())});
-    doc.then((onValue)=>{print(onValue.documents[0].metadata)});
-    DocumentReference ref = firestore.collection('user').document();
-    return ref;
   }
+
   addFriend() async{
     FirebaseUser user = await auth.currentUser();
-    Future<DocumentReference> ref = getFriendref();
-    print(ref);
+    QuerySnapshot ref =  await getFriendref();
+    DocumentReference docref = firestore.collection('user')
+    .document(ref
+              .documents[0]
+              .documentID);
+    firestore.collection('user').document(user.uid)
+    .updateData((
+    {
+      'added': FieldValue.arrayUnion([docref])
+    }
+    ));
+    print(ref.documents[0].documentID);
   }
+
+
+
+
+
     final search = TextFormField(
       controller: searchController,
       keyboardType: TextInputType.emailAddress,
@@ -78,11 +94,15 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
       ),
     );
   
+
+
   final searchBtn = RaisedButton(
     onPressed: searchUser,
     child: Text("Search")
     );
   
+
+
   final resultText = Container(
     child: Text(resultData.name));
   final addBtn = RaisedButton(
@@ -91,14 +111,10 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
     child: Text("Add")
   );
 
+
+
     return Scaffold(
-      appBar: PreferredSize(child: StreamBuilder(
-        stream: appbarBloc.streamControllerTitle.stream,
-        initialData: 'Add Friend',
-        builder: (context, snapshot){
-          return AppbarImplement.getAppBar(snapshot.data.toString(), context);
-        },
-      ),
+      appBar: PreferredSize(child: AppbarImplement.getAppBar("Add friend", context),
       preferredSize: const Size(50, 45)),
       body: Column(
         children: <Widget>[
