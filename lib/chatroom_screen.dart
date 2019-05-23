@@ -111,8 +111,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       ),
                     );
                   } else {
-                    return Column(
-                      children: <Widget>[
+                    return
                         ListView.builder(
                           padding: EdgeInsets.all(10.0),
                           itemBuilder: (context, index) {
@@ -122,10 +121,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                         snapshot.data.documents[index])));
                           },
                           itemCount: snapshot.data.documents.length,
-                          shrinkWrap: true,
-                        ),
-                      ],
-                    );
+                        );
                   }
                 },
               ),
@@ -135,7 +131,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 decoration: BoxDecoration(color: Theme.of(context).cardColor),
                 child: _buildTextBar()),
           ],
-        )));
+        )
+        )
+        );
   }
 
   
