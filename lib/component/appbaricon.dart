@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:testapp/addfriend.dart';
 import 'package:testapp/bloc/friend_bloc.dart';
 import 'package:testapp/bloc/provider_bloc.dart';
+import 'package:testapp/responsefriend_screen.dart';
 
 class AppbarIcon {
   static getAppBarIcon(String title, BuildContext context) {
@@ -24,7 +25,7 @@ class AppbarIcon {
                 context,
                 MaterialPageRoute(
                     builder: (context) => BlocProvider(
-                        bloc: FriendBloc(), child: AddFriendScreen())));
+                        bloc: FriendBloc(), child: ResponseFriend())));
           },
         )
       ];

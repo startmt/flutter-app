@@ -6,7 +6,7 @@ class AppbarImplement {
     return PreferredSize(
       preferredSize: const Size(double.infinity, kToolbarHeight),
       child: AppBar(
-        title: Text(title),
+        title: Text(title,style: Theme.of(context).textTheme.title,),
         actions: AppbarIcon.getAppBarIcon(title, context)
       ),
     );

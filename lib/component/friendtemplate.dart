@@ -25,8 +25,8 @@ class _FriendTemplateState extends State<FriendTemplate> {
           itemCount: snapshot.data.length,
           itemBuilder: (context, index) {
             return new ListTile(
-                title: new Text(snapshot.data[index].name),
-                subtitle: new Text(snapshot.data[index].email),
+                title: new Text(snapshot.data[index].name,style: Theme.of(context).textTheme.body1,),
+                subtitle: new Text(snapshot.data[index].email,style: Theme.of(context).textTheme.body2),
                 onTap: () async {
                   FirebaseUser user = await FirebaseAuth.instance.currentUser();
                   QuerySnapshot friendQ = await firestore

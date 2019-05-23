@@ -23,7 +23,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final Firestore firestore = Firestore.instance;
   final df = DateFormat('kk:mm a');
   bool _isComposingMessage = false;
-  
+
   List<Widget> getReceivedMessageLayout(Map<String, dynamic> data) {
     return <Widget>[
       Column(
@@ -40,11 +40,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     color: Colors.black,
                     fontWeight: FontWeight.bold)),
             Container(
-              margin: const EdgeInsets.only(top: 5.0),
+              margin: const EdgeInsets.only(top: 3.0,bottom: 15),
               child: Text(
                 df.format(DateTime.fromMillisecondsSinceEpoch(
                     data['time'].millisecondsSinceEpoch)),
-                style: TextStyle(fontSize: 10),
+                style: Theme.of(context).textTheme.body2,
               ),
             ),
           ],
@@ -65,11 +65,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     color: Colors.black,
                     fontWeight: FontWeight.bold)),
             Container(
-              margin: const EdgeInsets.only(top: 5.0),
+              margin: const EdgeInsets.only(top: 3.0, bottom: 15),
               child: Text(
                   df.format(DateTime.fromMillisecondsSinceEpoch(
                       data['time'].millisecondsSinceEpoch)),
-                  style: TextStyle(fontSize: 10)),
+                  style: Theme.of(context).textTheme.body2),
             ),
           ],
         ),
@@ -103,6 +103,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     .orderBy('time')
                     .snapshots(),
                 builder: (context, snapshot) {
+                  print(snapshot.hasData);
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(
@@ -111,17 +112,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       ),
                     );
                   } else {
-                    return
-                        ListView.builder(
-                          padding: EdgeInsets.all(10.0),
-                          itemBuilder: (context, index) {
-                            return Container(
-                                child: Row(
-                                    children: managemessage(
-                                        snapshot.data.documents[index])));
-                          },
-                          itemCount: snapshot.data.documents.length,
-                        );
+                    return ListView.builder(
+                      padding: EdgeInsets.all(10.0),
+                      itemBuilder: (context, index) {
+                        return Container(
+                            child: Row(
+                                children: managemessage(
+                                    snapshot.data.documents[index])));
+                      },
+                      itemCount: snapshot.data.documents.length,
+                    );
                   }
                 },
               ),
@@ -131,12 +131,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 decoration: BoxDecoration(color: Theme.of(context).cardColor),
                 child: _buildTextBar()),
           ],
-        )
-        )
-        );
+        )));
   }
 
-  
   Widget _buildTextBar() {
     return IconTheme(
         data: IconThemeData(
@@ -176,26 +173,29 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       _isComposingMessage = false;
     });
     _sendMessage(text);
-      }
-    
-      IconButton getDefaultSendButton() {
-        return IconButton(
-          icon: Icon(Icons.send),
-          onPressed: _isComposingMessage
-              ? () => _textMessageSubmitted(_textEditingController.text)
-              : null,
-        );
-      }
-    
-      void _sendMessage(String text) {
-        DocumentReference userRef =
+  }
+
+  IconButton getDefaultSendButton() {
+    return IconButton(
+      icon: Icon(Icons.send),
+      onPressed: _isComposingMessage
+          ? () => _textMessageSubmitted(_textEditingController.text)
+          : null,
+    );
+  }
+
+  void _sendMessage(String text) {
+    DocumentReference userRef =
         firestore.collection('user').document(this.widget.uid);
-        if(text != ''){
-        this.widget.session.collection('message').add(({
-          'message': text,
-          'sender': userRef,
-          'time': DateTime.now()
-        }));
-        }
-      }
+    if (text != '') {
+      this
+          .widget
+          .session
+          .collection('message')
+          .add(({'message': text, 'sender': userRef, 'time': DateTime.now()}))
+          .then((ref) => {
+                this.widget.session.setData(({'lastmessage': ref}))
+              });
+    }
+  }
 }

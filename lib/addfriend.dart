@@ -198,9 +198,11 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         RaisedButton(onPressed: searchUser, child: Text("Search"));
 
     final resultText = Container(child: Text(resultData.name));
-    final resultStatusText = Container(child: Text(_userStatus));
+    final resultStatusText = Container(child: Text(_userStatus, style: Theme.of(context).textTheme.caption,));
     final addBtn = RaisedButton(
-        onPressed: _addStatus ?() => addFriend() : null, color: Colors.green, child: Text("Add"));
+        onPressed: _addStatus ? () => addFriend() : null,
+        color: Colors.green,
+        child: Text("Add"));
 
     return Scaffold(
         appBar: PreferredSize(
