@@ -116,7 +116,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         ListView.builder(
                           padding: EdgeInsets.all(10.0),
                           itemBuilder: (context, index) {
-                            print(snapshot.data.documents[index].data);
                             return Container(
                                 child: Row(
                                     children: managemessage(
@@ -193,10 +192,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       void _sendMessage(String text) {
         DocumentReference userRef =
         firestore.collection('user').document(this.widget.uid);
+        if(text != ''){
         this.widget.session.collection('message').add(({
           'message': text,
           'sender': userRef,
           'time': DateTime.now()
         }));
+        }
       }
 }
