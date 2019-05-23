@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:testapp/bloc/appbar_bloc.dart';
 import 'package:testapp/bloc/provider_bloc.dart';
 import 'package:testapp/notlogin_screen.dart';
-
 import 'mainpage_screen.dart';
 class FirstScreen extends StatelessWidget {
   @override

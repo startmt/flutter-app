@@ -27,26 +27,33 @@ class _FriendTemplateState extends State<FriendTemplate> {
             return new ListTile(
                 title: new Text(snapshot.data[index].name),
                 subtitle: new Text(snapshot.data[index].email),
-                onTap: () async{
+                onTap: () async {
                   FirebaseUser user = await FirebaseAuth.instance.currentUser();
-                  QuerySnapshot friendQ = await firestore.collection('user')
-                  .where('email', isEqualTo: snapshot.data[index].email)
-                  .getDocuments();
-                  DocumentReference friendRef = firestore.collection('user').document(friendQ.documents[0].documentID);
-                  QuerySnapshot q = await firestore.collection('user')
-                  .document(user.uid)
-                  .collection('friends')
-                  .where('ref', isEqualTo: friendRef)
-                  .getDocuments();
+                  QuerySnapshot friendQ = await firestore
+                      .collection('user')
+                      .where('email', isEqualTo: snapshot.data[index].email)
+                      .getDocuments();
+                  DocumentReference friendRef = firestore
+                      .collection('user')
+                      .document(friendQ.documents[0].documentID);
+                  QuerySnapshot q = await firestore
+                      .collection('user')
+                      .document(user.uid)
+                      .collection('friends')
+                      .where('ref', isEqualTo: friendRef)
+                      .getDocuments();
                   DocumentReference session = q.documents[0].data['session'];
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context)=> ChatRoomScreen(session: session, name: snapshot.data[index].name,)));
-                }
-                  );
-                  
-                },);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatRoomScreen(
+                              session: session,
+                              name: snapshot.data[index].name,
+                              uid: user.uid)));
+                });
           },
-        )
         );
-      }
+      },
+    ));
   }
+}

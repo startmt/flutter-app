@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:testapp/first_screen.dart';
 import 'package:testapp/register_screen.dart';
-
 class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -18,6 +17,7 @@ class LoginState extends State<LoginScreen> {
 
    @override
   Widget build(BuildContext context) {
+    
     void login(){
       print(this._formKey.currentState);
       FirebaseAuth auth = FirebaseAuth.instance;
@@ -28,6 +28,7 @@ class LoginState extends State<LoginScreen> {
           password: passwordController.text
         ).then((FirebaseUser user){
           if (user.isEmailVerified) {
+            
             Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context)=> FirstScreen()
             ));
